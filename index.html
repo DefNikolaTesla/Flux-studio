@@ -384,6 +384,33 @@
     });
     aiToggle.addEventListener('change', () => { if (aiToggle.checked && promptInput.value.trim().length > 3) scheduleEnhance(); else clearEnhanced(); });
 
+    // ── GEMINI FETCH WITH PROXY FALLBACKS ────────────────────────────
+    const PROXIES = [
+      u => `https://corsproxy.io/?url=${encodeURIComponent(u)}`,
+      u => `https://api.allorigins.win/raw?url=${encodeURIComponent(u)}`,
+      u => `https://proxy.cors.sh/${u}`,
+      u => `https://cors.eu.org/${u}`,
+    ];
+
+    async function geminiPost(apiUrl, body) {
+      let lastErr;
+      for (const proxy of PROXIES) {
+        try {
+          const res = await fetch(proxy(apiUrl), {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(body)
+          });
+          const json = await res.json();
+          return { ok: res.ok, status: res.status, json };
+        } catch (err) {
+          lastErr = err;
+          continue;
+        }
+      }
+      throw new Error(`All proxies failed — ${lastErr?.message || 'check your connection'}`);
+    }
+
     function clearEnhanced() { enhancedBox.classList.remove('visible'); enhancedActions.classList.remove('visible'); enhancedPromptText = ''; }
 
     function scheduleEnhance() {
@@ -393,7 +420,7 @@
       enhanceDebounce = setTimeout(() => enhancePrompt(val), 900);
     }
 
-    // ── AI ENHANCE (Gemini 2.0 Flash via corsproxy.io) ────────────────
+    // ── AI ENHANCE (Gemini 2.0 Flash, multi-proxy fallback) ──────────
     async function enhancePrompt(userPrompt) {
       const key = getKey();
       const styleHint = currentStyle ? `\n\nSelected art style: ${currentStyle}` : '';
@@ -432,18 +459,13 @@ Rules:
 
       try {
         const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${key}`;
-        const res = await fetch(`https://corsproxy.io/?url=${encodeURIComponent(GEMINI_URL)}`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            system_instruction: { parts: [{ text: system }] },
-            contents: [{ role: 'user', parts: [{ text: userPrompt }] }],
-            generationConfig: { maxOutputTokens: 800, temperature: 0.9 }
-          })
+        const { ok, status, json } = await geminiPost(GEMINI_URL, {
+          system_instruction: { parts: [{ text: system }] },
+          contents: [{ role: 'user', parts: [{ text: userPrompt }] }],
+          generationConfig: { maxOutputTokens: 800, temperature: 0.9 }
         });
 
-        const json = await res.json();
-        if (!res.ok) { enhancedText.textContent = `⚠ ${json?.error?.message || 'Error ' + res.status}`; enhancedText.classList.remove('typing'); enhancedDot.classList.add('done'); return; }
+        if (!ok) { enhancedText.textContent = `⚠ ${json?.error?.message || 'Error ' + status}`; enhancedText.classList.remove('typing'); enhancedDot.classList.add('done'); return; }
 
         const fullText = json?.candidates?.[0]?.content?.parts?.[0]?.text?.trim() || '';
         if (!fullText) { enhancedText.textContent = '⚠ Empty response — try again'; enhancedText.classList.remove('typing'); enhancedDot.classList.add('done'); return; }
@@ -612,12 +634,11 @@ Rules:
       try {
         const key = getKey();
         const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${key}`;
-        const res = await fetch(`https://corsproxy.io/?url=${encodeURIComponent(GEMINI_URL)}`, {
-          method: 'POST', headers: {'Content-Type':'application/json'},
-          body: JSON.stringify({ contents:[{role:'user',parts:[{text:'Reply with just: OK'}]}], generationConfig:{maxOutputTokens:5} })
+        const { ok, json } = await geminiPost(GEMINI_URL, {
+          contents:[{role:'user',parts:[{text:'Reply with just: OK'}]}],
+          generationConfig:{maxOutputTokens:5}
         });
-        const json = await res.json();
-        if (!res.ok) { keyStatus.textContent = `⚠ ${json?.error?.message || 'Key rejected'}`; keyStatus.className = 'key-status err'; }
+        if (!ok) { keyStatus.textContent = `⚠ ${json?.error?.message || 'Key rejected'}`; keyStatus.className = 'key-status err'; }
         else { keyStatus.textContent = '✓ Key works! AI Enhance is ready'; keyStatus.className = 'key-status ok'; showToast('Key verified ✓'); setTimeout(closeSettings, 1400); }
       } catch (err) { keyStatus.textContent = `⚠ ${err.message}`; keyStatus.className = 'key-status err'; }
       keyTestBtn.textContent = '⚡ Test Key'; keyTestBtn.disabled = false;
@@ -643,4 +664,3 @@ Rules:
   </script>
 </body>
 </html>
- 
