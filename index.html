@@ -12,72 +12,69 @@
   <link rel="apple-touch-icon" href="icon-192.png" />
   <style>
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-
-    :root {
-      --bg: #0f1117;
-      --bg2: #1a1d27;
-      --bg3: #222636;
-      --border: #2e3247;
-      --border2: #3d4260;
-      --text: #f1f2f6;
-      --text2: #a0a8c0;
-      --text3: #636a85;
-      --accent: #6366f1;
-      --accent2: #818cf8;
-      --accent3: #4f46e5;
-      --cyan: #22d3ee;
-      --green: #34d399;
-      --purple: #a78bfa;
-      --red: #f87171;
+    :root{
+      --bg:#0f1117;--bg2:#1a1d27;--bg3:#222636;
+      --border:#2e3247;--border2:#3d4260;
+      --text:#f1f2f6;--text2:#b0b8d0;--text3:#636a85;
+      --accent:#6366f1;--accent2:#818cf8;--accent3:#4f46e5;
+      --cyan:#22d3ee;--green:#34d399;--purple:#a78bfa;--red:#f87171;
+      --yellow:#fbbf24;
     }
-
-    body{min-height:100vh;background:var(--bg);font-family:"Inter","Segoe UI",system-ui,sans-serif;display:flex;flex-direction:column;align-items:center;padding:60px 20px 80px;color:var(--text)}
-
+    body{min-height:100vh;background:var(--bg);font-family:"Inter","Segoe UI",system-ui,sans-serif;display:flex;flex-direction:column;align-items:center;padding:48px 16px 80px;color:var(--text)}
+    @media(max-width:480px){body{padding:40px 12px 80px}}
     .top-bar{position:fixed;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--accent),var(--cyan),var(--accent));z-index:99}
     .container{position:relative;z-index:2;width:100%;max-width:720px}
 
-    /* Header */
-    .header{text-align:center;margin-bottom:48px}
+    .header{text-align:center;margin-bottom:40px}
+    @media(max-width:480px){.header{margin-bottom:32px}}
     .header .label{font-size:11px;letter-spacing:5px;color:var(--accent2);margin-bottom:12px;text-transform:uppercase;font-weight:600}
     .header h1{font-size:clamp(28px,6vw,52px);font-weight:800;color:var(--text);letter-spacing:-1.5px;line-height:1.1}
     .header h1 span{color:var(--accent2)}
-    .header p{color:var(--text3);font-size:14px;margin-top:10px;letter-spacing:0.5px}
+    .header p{color:var(--text3);font-size:14px;margin-top:10px}
 
-    /* Section label */
     .section-label{font-size:11px;letter-spacing:3px;color:var(--text3);text-transform:uppercase;margin-bottom:10px;font-weight:600}
 
-    /* Boxes */
     .box{margin-bottom:20px;background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:18px 20px}
     .box-accent{border-left:3px solid var(--accent)}
+    .box-purple{border-left:3px solid var(--purple)}
+    .box-yellow{border-left:3px solid var(--yellow)}
 
-    /* API Key */
     .api-header{font-size:11px;letter-spacing:3px;color:var(--text3);text-transform:uppercase;margin-bottom:12px;display:flex;justify-content:space-between;align-items:center;font-weight:600}
-    .api-header a{color:var(--accent2);text-decoration:none;font-size:11px;letter-spacing:1px;transition:color 0.15s}
+    .api-header a{color:var(--accent2);text-decoration:none;font-size:11px;transition:color 0.15s}
     .api-header a:hover{color:var(--accent)}
     .key-wrap{display:flex;align-items:center;gap:8px}
     #apiKey{flex:1;background:var(--bg3);border:1px solid var(--border2);border-radius:8px;color:var(--text);padding:10px 14px;font-size:13px;font-family:"SF Mono","Fira Code",monospace;outline:none;transition:border-color 0.2s}
     #apiKey:focus{border-color:var(--accent)}
-    .key-actions{display:flex;gap:6px;align-items:center;flex-shrink:0}
-    .key-btn{background:var(--bg3);border:1px solid var(--border);border-radius:6px;color:var(--text2);cursor:pointer;font-size:11px;font-family:inherit;letter-spacing:1px;padding:6px 10px;transition:all 0.15s}
+    .key-actions{display:flex;gap:6px;flex-shrink:0}
+    .key-btn{background:var(--bg3);border:1px solid var(--border);border-radius:6px;color:var(--text2);cursor:pointer;font-size:11px;font-family:inherit;padding:7px 10px;transition:all 0.15s}
     .key-btn:hover{border-color:var(--border2);color:var(--text)}
-    #saveKeyBtn{background:var(--bg3);border:1px solid var(--border);border-radius:6px;color:var(--text2);cursor:pointer;font-size:11px;font-family:inherit;letter-spacing:1px;padding:6px 14px;text-transform:uppercase;transition:all 0.15s}
+    #saveKeyBtn{background:var(--bg3);border:1px solid var(--border);border-radius:6px;color:var(--text2);cursor:pointer;font-size:11px;font-family:inherit;padding:7px 14px;text-transform:uppercase;letter-spacing:1px;font-weight:600;transition:all 0.15s}
     #saveKeyBtn:hover{border-color:var(--accent);color:var(--accent)}
     #saveKeyBtn.saved{border-color:var(--green);color:var(--green);background:rgba(52,211,153,0.08)}
-    .api-note{font-size:11px;color:var(--text3);margin-top:10px}
+    .api-note{font-size:11px;color:var(--text3);margin-top:10px;line-height:1.6}
     .key-saved-badge{display:none;font-size:11px;color:var(--green);margin-top:6px;font-weight:500}
+
+    /* Mode Toggle */
+    .mode-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:24px}
+    @media(max-width:400px){.mode-row{grid-template-columns:1fr}}
+    .mode-chip{padding:14px;font-size:12px;font-family:inherit;font-weight:700;letter-spacing:1px;text-transform:uppercase;border:1px solid var(--border);border-radius:10px;background:var(--bg2);color:var(--text3);cursor:pointer;transition:all 0.2s;text-align:center}
+    .mode-chip .mode-icon{font-size:20px;display:block;margin-bottom:6px}
+    .mode-chip .mode-desc{font-size:10px;font-weight:400;letter-spacing:0.5px;color:var(--text3);text-transform:none;margin-top:3px;display:block}
+    .mode-chip:hover:not(.active){border-color:var(--border2);color:var(--text2)}
+    .mode-chip.active{border-color:var(--accent);color:var(--text);background:rgba(99,102,241,0.12)}
+    .mode-chip.active .mode-desc{color:var(--text2)}
 
     /* Chips */
     .chip-grid{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px}
-    .chip{padding:7px 14px;font-size:11px;font-family:inherit;letter-spacing:0.5px;text-transform:uppercase;font-weight:600;border:1px solid var(--border);border-radius:8px;background:var(--bg2);color:var(--text2);cursor:pointer;transition:all 0.15s}
+    .chip{padding:8px 14px;font-size:11px;font-family:inherit;letter-spacing:0.5px;text-transform:uppercase;font-weight:600;border:1px solid var(--border);border-radius:8px;background:var(--bg2);color:var(--text2);cursor:pointer;transition:all 0.15s;-webkit-tap-highlight-color:transparent}
+    @media(max-width:480px){.chip{padding:9px 12px;font-size:11px}}
     .chip:hover:not(.active){border-color:var(--border2);color:var(--text)}
     .chip.active{border-color:var(--accent);color:var(--text);background:rgba(99,102,241,0.15)}
 
-    /* Grid */
     .grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-bottom:20px}
     @media(max-width:520px){.grid3{grid-template-columns:1fr}}
 
-    /* Select & Input */
-    select,input[type="number"]{width:100%;background:var(--bg3);border:1px solid var(--border2);border-radius:8px;color:var(--text);padding:10px 14px;font-size:13px;font-family:inherit;outline:none;appearance:none;-webkit-appearance:none;transition:border-color 0.2s}
+    select,input[type="number"]{width:100%;background:var(--bg3);border:1px solid var(--border2);border-radius:8px;color:var(--text);padding:11px 14px;font-size:14px;font-family:inherit;outline:none;appearance:none;-webkit-appearance:none;transition:border-color 0.2s}
     select:focus,input[type="number"]:focus{border-color:var(--accent)}
     select option{background:var(--bg2);color:var(--text)}
     .select-wrap{position:relative}
@@ -87,44 +84,51 @@
     #randomSeed:hover{color:var(--accent2)}
     #seedInput{padding-right:36px}
 
+    /* Constraints box */
+    .constraint-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
+    @media(max-width:480px){.constraint-grid{grid-template-columns:1fr}}
+    .field-label{font-size:10px;letter-spacing:2px;color:var(--text3);text-transform:uppercase;font-weight:600;margin-bottom:6px}
+    textarea.mini{width:100%;background:var(--bg3);border:1px solid var(--border2);border-radius:8px;color:var(--text);padding:10px 12px;font-size:12px;font-family:inherit;resize:vertical;outline:none;line-height:1.6;min-height:70px;transition:border-color 0.2s}
+    textarea.mini:focus{border-color:var(--accent)}
+    textarea.mini::placeholder{color:var(--text3)}
+
     /* Face match */
     .face-match-box{margin-bottom:20px;background:var(--bg2);border:1px solid var(--border);border-left:3px solid var(--purple);border-radius:12px;padding:18px 20px}
     .face-match-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
     .face-match-title{font-size:11px;letter-spacing:3px;color:var(--purple);text-transform:uppercase;font-weight:600}
-    .face-match-desc{font-size:12px;color:var(--text3);line-height:1.7;margin-bottom:14px}
+    .face-match-desc{font-size:12px;color:var(--text3);line-height:1.7;margin-bottom:0}
     .toggle{position:relative;width:42px;height:24px;cursor:pointer;flex-shrink:0}
     .toggle input{opacity:0;width:0;height:0}
     .toggle-slider{position:absolute;inset:0;background:var(--bg3);border:1px solid var(--border2);border-radius:12px;transition:0.2s}
     .toggle-slider::before{content:"";position:absolute;width:16px;height:16px;background:var(--text3);border-radius:50%;top:3px;left:3px;transition:0.2s}
     .toggle input:checked+.toggle-slider{background:rgba(167,139,250,0.2);border-color:var(--purple)}
     .toggle input:checked+.toggle-slider::before{background:var(--purple);transform:translateX(18px)}
-    .face-options{display:none;margin-top:16px}
+    #constraintsToggle:checked+.toggle-slider{background:rgba(251,191,36,0.15);border-color:var(--yellow)}
+    #constraintsToggle:checked+.toggle-slider::before{background:var(--yellow)}
+    .face-options{display:none;margin-top:14px;padding-top:14px;border-top:1px solid var(--border)}
     .face-options.visible{display:block}
-    .face-checkboxes{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
-    .face-check-item{display:flex;align-items:center;gap:6px;cursor:pointer;background:var(--bg3);border:1px solid var(--border);border-radius:6px;padding:6px 10px;transition:border-color 0.15s}
+    .face-checkboxes{display:flex;flex-wrap:wrap;gap:7px;margin-top:10px}
+    .face-check-item{display:flex;align-items:center;gap:5px;cursor:pointer;background:var(--bg3);border:1px solid var(--border);border-radius:6px;padding:8px 10px;transition:border-color 0.15s;-webkit-tap-highlight-color:transparent}
     .face-check-item:hover{border-color:var(--purple)}
-    .face-check-item input[type="checkbox"]{width:13px;height:13px;accent-color:var(--purple);cursor:pointer}
-    .face-check-item span{font-size:11px;letter-spacing:0.5px;color:var(--text2);text-transform:uppercase;font-weight:600;transition:color 0.15s}
+    .face-check-item input[type="checkbox"]{width:12px;height:12px;accent-color:var(--purple);cursor:pointer}
+    .face-check-item span{font-size:10px;letter-spacing:0.5px;color:var(--text2);text-transform:uppercase;font-weight:600}
     .face-check-item input:checked~span{color:var(--purple)}
-    .face-note{margin-top:12px;padding:12px 14px;background:rgba(167,139,250,0.06);border:1px solid rgba(167,139,250,0.2);border-radius:8px;font-size:11px;color:var(--text2);line-height:1.7}
+    .face-note{margin-top:12px;padding:10px 14px;background:rgba(167,139,250,0.06);border:1px solid rgba(167,139,250,0.2);border-radius:8px;font-size:11px;color:var(--text2);line-height:1.7}
     .face-note strong{color:var(--purple);font-weight:600}
 
-    /* Textarea */
-    textarea{width:100%;background:var(--bg2);border:1px solid var(--border);border-radius:12px;color:var(--text);padding:16px 18px;font-size:14px;font-family:inherit;resize:vertical;outline:none;line-height:1.7;margin-bottom:16px;transition:border-color 0.2s}
-    textarea:focus{border-color:var(--accent)}
-    textarea::placeholder{color:var(--text3)}
+    /* Main textarea */
+    textarea.main-prompt{width:100%;background:var(--bg2);border:1px solid var(--border);border-radius:12px;color:var(--text);padding:16px 18px;font-size:14px;font-family:inherit;resize:vertical;outline:none;line-height:1.7;margin-bottom:16px;transition:border-color 0.2s;min-height:100px}
+    textarea.main-prompt:focus{border-color:var(--accent)}
+    textarea.main-prompt::placeholder{color:var(--text3)}
     input::placeholder{color:var(--text3)}
 
-    /* Button */
-    #enhanceBtn{width:100%;padding:16px;background:var(--accent);color:#fff;border:none;border-radius:12px;font-size:13px;font-family:inherit;font-weight:700;letter-spacing:3px;text-transform:uppercase;cursor:pointer;margin-bottom:24px;transition:all 0.2s;box-shadow:0 4px 24px rgba(99,102,241,0.3)}
+    #enhanceBtn{width:100%;padding:18px;background:var(--accent);color:#fff;border:none;border-radius:12px;font-size:13px;font-family:inherit;font-weight:700;letter-spacing:3px;text-transform:uppercase;cursor:pointer;margin-bottom:24px;transition:all 0.2s;box-shadow:0 4px 24px rgba(99,102,241,0.3);-webkit-tap-highlight-color:transparent;touch-action:manipulation}
     #enhanceBtn:not(:disabled):hover{background:var(--accent2);box-shadow:0 4px 32px rgba(99,102,241,0.5);transform:translateY(-1px)}
     #enhanceBtn:active{transform:translateY(0)}
     #enhanceBtn:disabled{background:var(--bg3);color:var(--text3);cursor:not-allowed;box-shadow:none}
 
-    /* Error */
     .error-box{background:rgba(248,113,113,0.08);border:1px solid rgba(248,113,113,0.3);border-radius:10px;color:var(--red);padding:14px 18px;font-size:13px;margin-bottom:20px;line-height:1.7;display:none}
 
-    /* Output */
     .output-section{display:none}
     .output-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
     .output-label{font-size:11px;letter-spacing:3px;color:var(--text3);text-transform:uppercase;font-weight:600}
@@ -136,7 +140,8 @@
     .meta-tag{font-size:10px;letter-spacing:1px;color:var(--accent2);border:1px solid rgba(99,102,241,0.3);border-radius:6px;padding:3px 10px;text-transform:uppercase;background:rgba(99,102,241,0.08);font-weight:600}
     .meta-tag.purple{color:var(--purple);border-color:rgba(167,139,250,0.3);background:rgba(167,139,250,0.08)}
 
-    .output-text{background:var(--bg2);border:1px solid var(--border);border-left:3px solid var(--cyan);border-radius:12px;padding:22px 24px;color:var(--text2);font-size:14px;line-height:1.9;white-space:pre-wrap;word-break:break-word}
+    .output-text{background:var(--bg2);border:1px solid var(--border);border-left:3px solid var(--cyan);border-radius:12px;padding:22px 24px;color:var(--text2);font-size:13px;line-height:1.9;white-space:pre-wrap;word-break:break-word}
+    .output-text.spp-mode{font-family:"SF Mono","Fira Code","Courier New",monospace;font-size:12px;color:var(--text2)}
 
     .tags{margin-top:14px;display:flex;gap:8px;flex-wrap:wrap}
     .tag{font-size:10px;letter-spacing:1px;color:var(--text3);border:1px solid var(--border);border-radius:6px;padding:4px 12px;text-transform:uppercase;background:var(--bg2);font-weight:600}
@@ -149,9 +154,7 @@
   </style>
 </head>
 <body>
-
 <div class="top-bar"></div>
-
 <div class="container">
 
   <div class="header">
@@ -160,6 +163,7 @@
     <p>Next-level AI prompt engineering</p>
   </div>
 
+  <!-- API Key -->
   <div class="box box-accent">
     <div class="api-header">
       <span>Groq API Key</span>
@@ -176,6 +180,22 @@
     <div class="api-note">Free at console.groq.com &#8594; API Keys &#8594; Create. No credit card needed.</div>
   </div>
 
+  <!-- Output Mode -->
+  <div class="section-label">Output Mode</div>
+  <div class="mode-row" id="modeGrid">
+    <button class="mode-chip chip active" data-val="narrative">
+      <span class="mode-icon">&#128396;</span>
+      Narrative Mode
+      <span class="mode-desc">Dense prose paragraph — best for DALL-E 3, Firefly, Flux</span>
+    </button>
+    <button class="mode-chip chip" data-val="parameter">
+      <span class="mode-icon">&#9881;</span>
+      Parameter Mode
+      <span class="mode-desc">JSON-style SPP structure — best for Midjourney, SD, ComfyUI</span>
+    </button>
+  </div>
+
+  <!-- Art Style -->
   <div class="section-label">Art Style</div>
   <div class="chip-grid" id="styleGrid">
     <button class="chip active" data-val="none">None</button>
@@ -192,18 +212,34 @@
     <button class="chip" data-val="fantasy">Fantasy</button>
   </div>
 
+  <!-- Shot Style -->
   <div class="section-label">Shot Style</div>
   <div class="chip-grid" id="shotGrid">
     <button class="chip active" data-val="candid">Candid</button>
     <button class="chip" data-val="golden_hour">Golden Hour</button>
+    <button class="chip" data-val="blue_hour">Blue Hour</button>
     <button class="chip" data-val="low_light">Low Light</button>
+    <button class="chip" data-val="night">Night Shot</button>
     <button class="chip" data-val="street">Street</button>
     <button class="chip" data-val="indoor">Indoor</button>
+    <button class="chip" data-val="cafe">Café / Restaurant</button>
+    <button class="chip" data-val="rooftop">Rooftop</button>
+    <button class="chip" data-val="beach">Beach</button>
+    <button class="chip" data-val="forest">Forest / Nature</button>
+    <button class="chip" data-val="rain">Rainy Day</button>
+    <button class="chip" data-val="fog">Foggy / Misty</button>
     <button class="chip" data-val="motion">Motion Blur</button>
+    <button class="chip" data-val="silhouette">Silhouette</button>
+    <button class="chip" data-val="backlit">Backlit / Rim Light</button>
+    <button class="chip" data-val="overhead">Overhead / Flat Lay</button>
+    <button class="chip" data-val="mirror">Mirror Selfie</button>
+    <button class="chip" data-val="car">In Car</button>
+    <button class="chip" data-val="concert">Concert / Event</button>
   </div>
 
   <hr class="divider" />
 
+  <!-- Ratio / Model / Seed -->
   <div class="grid3">
     <div>
       <div class="section-label">Aspect Ratio</div>
@@ -246,6 +282,33 @@
 
   <hr class="divider" />
 
+  <!-- Constraints & Negative Prompt -->
+  <div class="face-match-box" style="border-left-color:var(--yellow)">
+    <div class="face-match-header">
+      <div class="face-match-title" style="color:var(--yellow)">&#9881; Constraints &amp; Negative Prompt</div>
+      <label class="toggle">
+        <input type="checkbox" id="constraintsToggle" onchange="toggleConstraints()" />
+        <span class="toggle-slider" style=""></span>
+      </label>
+    </div>
+    <div class="face-match-desc">Shape output boundaries — lock elements in, push elements out.</div>
+    <div class="face-options" id="constraintsOptions">
+      <div class="constraint-grid" style="margin-top:14px">
+        <div>
+          <div class="field-label">Must Keep</div>
+          <textarea class="mini" id="mustKeep" placeholder="black outfit, long hair, outdoor setting..."></textarea>
+        </div>
+        <div>
+          <div class="field-label">Avoid</div>
+          <textarea class="mini" id="avoidField" placeholder="studio lighting, baggy clothes, symmetry..."></textarea>
+        </div>
+      </div>
+      <div class="field-label">Negative Prompt</div>
+      <textarea class="mini" id="negPrompt" placeholder="ugly, deformed, blurry, low resolution, watermark, text, cropped..." style="min-height:56px;margin-top:6px"></textarea>
+    </div>
+  </div>
+
+  <!-- Face Match -->
   <div class="face-match-box">
     <div class="face-match-header">
       <div class="face-match-title">&#9672; Face Reference Match</div>
@@ -254,9 +317,9 @@
         <span class="toggle-slider"></span>
       </label>
     </div>
-    <div class="face-match-desc">Enable to include facial matching instructions. Attach your reference photo directly in your image tool.</div>
+    <div class="face-match-desc">Enable to include facial matching instructions. Attach reference photo in your image tool.</div>
     <div class="face-options" id="faceOptions">
-      <div class="section-label" style="color:var(--purple)">Match from reference</div>
+      <div class="section-label" style="color:var(--purple);margin-top:4px">Match from reference</div>
       <div class="face-checkboxes">
         <label class="face-check-item"><input type="checkbox" value="face_structure" checked /><span>Face Structure</span></label>
         <label class="face-check-item"><input type="checkbox" value="eyes" checked /><span>Eyes</span></label>
@@ -275,8 +338,9 @@
     </div>
   </div>
 
+  <!-- Prompt -->
   <div class="section-label">Your Prompt</div>
-  <textarea id="prompt" rows="4" placeholder="a woman standing in a kitchen making coffee..."></textarea>
+  <textarea class="main-prompt" id="prompt" rows="4" placeholder="a woman standing in a kitchen making coffee..."></textarea>
 
   <button id="enhanceBtn" onclick="enhance()">&#10024; Make it Raw</button>
 
@@ -302,6 +366,7 @@
 </div>
 
 <script>
+
 
 
   // ── Saved key ──────────────────────────────────────────────────
@@ -333,6 +398,7 @@
   // ── Chip selection ─────────────────────────────────────────────
   let selectedArtStyle = 'none';
   let selectedShotStyle = 'candid';
+  let selectedMode = 'narrative';
 
   function bindChips(gridId, setter) {
     document.getElementById(gridId).addEventListener('click', e => {
@@ -344,6 +410,11 @@
   }
   bindChips('styleGrid', v => selectedArtStyle = v);
   bindChips('shotGrid',  v => selectedShotStyle = v);
+  bindChips('modeGrid',  v => {
+    selectedMode = v;
+    const narrativeHints = document.getElementById('narrativeHints');
+    if (narrativeHints) narrativeHints.style.display = v === 'narrative' ? 'block' : 'none';
+  });
 
   // ── Seed ───────────────────────────────────────────────────────
   function genSeed() {
@@ -353,10 +424,12 @@
   // ── Face toggle ────────────────────────────────────────────────
   function toggleFace() {
     const on = document.getElementById('faceToggle').checked;
-    const opts = document.getElementById('faceOptions');
-    opts.classList.toggle('visible', on);
-    const label = document.querySelector('.toggle-label');
-    if (label) label.classList.toggle('on', on);
+    document.getElementById('faceOptions').classList.toggle('visible', on);
+  }
+
+  function toggleConstraints() {
+    const on = document.getElementById('constraintsToggle').checked;
+    document.getElementById('constraintsOptions').classList.toggle('visible', on);
   }
 
   function getCheckedFaceFeatures() {
@@ -442,6 +515,137 @@ A real person held this phone. Horizon tilts 0.5-2.5 degrees. Subject placement 
 ═══ OUTPUT RULES ═══
 Write as one continuous flowing paragraph. No lists. No headers. No labels. No explanation before or after. Just the prompt. 850-950 words. Make it read like a photograph that already exists, not instructions to create one. End with the platform-specific technical suffix provided.`;
 
+  const SPP_SYSTEM = `You are the world's most elite AI image prompt engineer specializing in Structured Parameter Prompts (SPP). Your outputs are legendary because you combine the precision of JSON-style structured parameters WITH the deepest possible photographic realism — every field is filled with the kind of brutal, specific detail that makes AI generators produce images indistinguishable from real life.
+
+REALISM PHILOSOPHY: Real photos are beautifully flawed. Perfection kills believability. Every parameter you write must encode real-world imperfection — asymmetry, noise, optical physics, human truth.
+
+Output a complete SPP using this architecture. Every single field must be filled with exhaustive, hyper-specific values. Vague answers are forbidden.
+
+REALISM LAYERS TO ENCODE ACROSS ALL FIELDS:
+
+CAMERA HARDWARE: Specify exact phone/camera model and lens (e.g. "iPhone 15 Pro, 48mm f/1.78 main lens, handheld, slight OIS micro-correction visible"). Include shutter speed, ISO, whether computational photography (Deep Fusion, Night Sight, Smart HDR) processed it.
+
+OPTICAL IMPERFECTIONS: Chromatic aberration (cyan/red fringing on high-contrast edges), barrel distortion on wide shots, lens vignetting (corners 15-20% darker), specific lens flare type, focus falloff — what is tack sharp, what transitions soft, bokeh ball shape on background lights.
+
+SENSOR & PROCESSING: Luminance noise pattern (chroma noise in shadows, fine grain in midtones), JPEG compression blocking in flat areas, computational sharpening halos around in-focus edges, HDR tone-mapping artifacts, phone-specific color science (iPhone: warm natural; Samsung: vivid punchy; Pixel: lifted shadows film-like).
+
+HUMAN ANATOMY TRUTH (when people present): Specific facial asymmetries (which eye lower, nose deviation direction), skin micro-detail (sebum shine on T-zone, visible pores on nose, redness at nostrils and inner canthi, under-eye blue shadow), hair flyaways and baby hairs, natural body weight distribution and posture imperfections, clothing wrinkles at stress points, expression caught mid-state not fully posed.
+
+ENVIRONMENT REALISM: Lived-in clutter, lighting falloff gradient from source, mixed color temperatures, surface textures with wear, atmospheric particles in light beams, shadow colors reflecting bounce light from nearby surfaces.
+
+COMPOSITION TRUTH: 0.5-2 degree horizon tilt, slightly off rule-of-thirds, one accidental foreground element, natural compositional imperfection.
+
+OUTPUT FORMAT — valid JSON structure:
+{
+  "subject": {
+    "description": "...(specific, vivid, real-world scenario)...",
+    "age": "...",
+    "expression": {
+      "eyes": { "look": "...", "energy": "...", "direction": "...", "detail": "...(natural redness in corners, asymmetric iris, specific catchlight source)..." },
+      "mouth": { "position": "...", "energy": "...", "detail": "...(caught mid-expression, natural lip texture, not perfectly posed)..." },
+      "overall": "...(which specific facial muscles engaged, micro-expression state)..."
+    },
+    "face": {
+      "preserve_original": true,
+      "asymmetry": "...(specific: left eye 1-2mm lower, nose tip slight deviation, one eyebrow arched higher)...",
+      "skin_micro": "...(pores on nose bridge, sebum T-zone shine, redness at nostrils, under-eye shadow tone)...",
+      "makeup": "..."
+    }
+  },
+  "hair": {
+    "color": "...",
+    "style": "...",
+    "realism": "...(3-5 specific flyaway strands catching light, baby hairs at hairline, natural growth cowlick, slight frizz on top layer)..."
+  },
+  "body": {
+    "frame": "...",
+    "posture": "...(weight shifted to one hip, shoulder height asymmetry, forward head position — natural not posed)...",
+    "skin": {
+      "visible_areas": "...",
+      "tone": "...",
+      "texture": "...(smooth but with natural micro-imperfections, fine peach fuzz catching sidelight on cheek)...",
+      "lighting_effect": "...(specific lighting physics — 2 stop falloff per meter from source, color temperature of shadows)..."
+    }
+  },
+  "pose": {
+    "position": "...",
+    "base": "...(natural weight shift, not symmetrical)...",
+    "hands": "...(relaxed, natural — visible knuckle texture, slight vein detail)...",
+    "overall": "...(candid energy, caught mid-movement or mid-moment)..."
+  },
+  "clothing": {
+    "top": { "type": "...", "color": "...", "details": "...", "realism": "...(wrinkles at elbows and waist, fabric pull at stress points, natural drape showing body shape)..." },
+    "bottom": { "type": "...", "color": "...", "details": "...", "realism": "..." },
+    "outerwear": "..."
+  },
+  "accessories": {
+    "jewelry": "...",
+    "bags": "...",
+    "other": "..."
+  },
+  "camera": {
+    "device": "...(exact model, e.g. iPhone 15 Pro 48mm f/1.78)...",
+    "settings": "...(shutter speed, ISO, computational processing active)...",
+    "holding": "...(handheld, slight micro-vibration, not tripod perfect)...",
+    "color_science": "...(phone-specific color rendering characteristics)..."
+  },
+  "optics": {
+    "chromatic_aberration": "...(where cyan/red fringing appears — specific edges)...",
+    "distortion": "...(barrel or pincushion, which edges affected)...",
+    "vignetting": "...(corners X% darker than center)...",
+    "flare": "...(type and location based on light source angle)...",
+    "focus_plane": "...(exactly what is sharp, transition zone description, bokeh characteristics)...",
+    "micro_blur": "...(handheld shake visible on specific edges)..."
+  },
+  "sensor": {
+    "noise": "...(luminance noise pattern — chroma in shadows, grain in midtones, clean highlights)...",
+    "compression": "...(JPEG blocking in flat areas like sky or walls)...",
+    "sharpening_halos": "...(thin bright edge around in-focus subjects from AI sharpening)...",
+    "hdr_artifacts": "...(tone-mapping halo where bright sky meets dark building edge)..."
+  },
+  "photography": {
+    "camera_style": "...(casual influencer portrait / documentary / street — be specific)...",
+    "angle": "...",
+    "shot_type": "...",
+    "aspect_ratio": "...",
+    "lighting": "...(light source type, direction, intensity, color temperature in Kelvin, shadows quality)...",
+    "depth_of_field": "...(f-stop equivalent, focus distance, bokeh shape)...",
+    "composition_realism": "...(horizon tilt degrees, frame imperfection, accidental foreground element)..."
+  },
+  "background": {
+    "setting": "...",
+    "colors": "...",
+    "elements": [],
+    "atmosphere": "...(air quality, haze, dust motes in light, atmospheric depth)...",
+    "lighting": "...(natural/artificial, direction, color temperature, falloff gradient)...",
+    "depth_layers": "...(foreground, midground, background — progressive defocus description)..."
+  },
+  "environment_realism": {
+    "surface_textures": "...(specific wear patterns, fingerprints on glass, scuffs on floors)...",
+    "clutter": "...(lived-in details that make the space feel real)...",
+    "light_interaction": "...(how light bounces, color of shadows from nearby colored surfaces)..."
+  },
+  "the_vibe": {
+    "energy": "...",
+    "mood": "...",
+    "aesthetic": "...",
+    "authenticity": "...(what makes this feel like a real captured moment, not generated)...",
+    "story": "...(one sentence: what is actually happening in this moment)..."
+  },
+  "constraints": {
+    "must_keep": [],
+    "avoid": []
+  },
+  "negative_prompt": []
+}
+
+RULES:
+- negative_prompt: 12-18 specific items. Include: ugly, deformed, symmetrical face, perfect skin, studio lighting, plastic skin, airbrushed, CGI look, uncanny valley, watermark, text overlay, cropped, low resolution, flat lighting, posed expression, plus scene-specific ones
+- must_keep: 6-10 non-negotiable visual elements from the scene
+- avoid: 6-8 aesthetic-breaking elements specific to this scene
+- Every realism field must have specific, measurable detail — not vague adjectives
+- Output ONLY the JSON. No explanation. No prose before or after. No markdown backticks.`
+
   // ── Enhance ────────────────────────────────────────────────────
   async function enhance() {
     const apiKey = document.getElementById('apiKey').value.trim();
@@ -460,25 +664,48 @@ Write as one continuous flowing paragraph. No lists. No headers. No labels. No e
     hideError();
     document.getElementById('outputSection').style.display = 'none';
 
-    const artNote  = ART_STYLE_PROMPTS[selectedArtStyle] || '';
-    const shotNote = SHOT_STYLE_PROMPTS[selectedShotStyle] || '';
-    const suffix   = (MODEL_SUFFIXES[model] || '').replace('{ratio}', ratio);
-    const seedNote = seed ? `\nSeed: ${seed} — append this exact seed value at the very end of the prompt.` : '';
+    const artNote   = ART_STYLE_PROMPTS[selectedArtStyle] || '';
+    const shotNote  = SHOT_STYLE_PROMPTS[selectedShotStyle] || '';
+    const suffix    = (MODEL_SUFFIXES[model] || '').replace('{ratio}', ratio);
+    const seedNote  = seed ? `\nSeed: ${seed} — append this exact seed value at the very end.` : '';
+    const mustKeep  = document.getElementById('mustKeep').value.trim();
+    const avoid     = document.getElementById('avoidField').value.trim();
+    const negPrompt = document.getElementById('negPrompt').value.trim();
 
     let faceSection = '';
     if (faceOn) {
       const features = getCheckedFaceFeatures();
       if (features.length > 0) {
         const featureDescriptions = features.map(f => FACE_FEATURE_LABELS[f]).join('; ');
-        faceSection = `\n\nFACE REFERENCE MATCHING — CRITICAL: The user will attach a reference image directly in their image generation tool. You MUST include a dedicated paragraph in the prompt that explicitly instructs the AI to: precisely replicate the following features from the attached reference image: ${featureDescriptions}. The instruction should be written naturally woven into the prompt, telling the AI to treat the attached image as the definitive face reference and match these specific features with exact fidelity — not as inspiration, but as a precise blueprint. Include language like "using the attached reference image, precisely replicate..." and specify that face-swapping or face-matching mode should treat the reference as ground truth for these features.`;
+        faceSection = `\n\nFACE REFERENCE MATCHING — CRITICAL: The user will attach a reference image directly in their image generation tool. You MUST include a dedicated paragraph in the prompt that explicitly instructs the AI to precisely replicate the following features from the attached reference image: ${featureDescriptions}. Treat the attached image as the definitive face reference and match these specific features with exact fidelity — not as inspiration, but as a precise blueprint.`;
       }
     }
 
-    const userMsg = `${artNote ? artNote + '\n' : ''}${shotNote ? shotNote + '\n' : ''}${seedNote}${faceSection}
+    let constraintsNote = '';
+    if (mustKeep) constraintsNote += `\n\nMUST KEEP (non-negotiable visual elements): ${mustKeep}`;
+    if (avoid) constraintsNote += `\n\nAVOID (things that would break the aesthetic): ${avoid}`;
+    if (negPrompt) constraintsNote += `\n\nNEGATIVE PROMPT elements to include: ${negPrompt}`;
+
+    let systemPrompt, userMsg;
+
+    if (selectedMode === 'parameter') {
+      systemPrompt = SPP_SYSTEM;
+      userMsg = `Art style: ${selectedArtStyle !== 'none' ? selectedArtStyle : 'realistic photo'}
+Shot style: ${selectedShotStyle}
+Aspect ratio: ${ratio}
+Platform: ${model}
+${seedNote}${faceSection}${constraintsNote}
+
+Generate a complete Structured Parameter Prompt (SPP) for:
+"${prompt}"`;
+    } else {
+      systemPrompt = BASE_SYSTEM;
+      userMsg = `${artNote ? artNote + '\n' : ''}${shotNote ? shotNote + '\n' : ''}${seedNote}${faceSection}${constraintsNote}
 Append this suffix at the very end: "${suffix}"
 
 Transform this into the ultimate 850-950 word realistic prompt:
 "${prompt}"`;
+    }
 
     try {
       const res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
@@ -490,7 +717,7 @@ Transform this into the ultimate 850-950 word realistic prompt:
         body: JSON.stringify({
           model: 'llama-3.3-70b-versatile',
           messages: [
-            { role: 'system', content: BASE_SYSTEM },
+            { role: 'system', content: systemPrompt },
             { role: 'user',   content: userMsg },
           ],
           max_tokens: 2000,
@@ -505,7 +732,7 @@ Transform this into the ultimate 850-950 word realistic prompt:
         const text = data.choices?.[0]?.message?.content?.trim();
         if (text) {
           document.getElementById('outputText').textContent = text;
-          buildMetaTags(ratio, model, seed, selectedArtStyle, selectedShotStyle, faceOn);
+          buildMetaTags(ratio, model, seed, selectedArtStyle, selectedShotStyle, faceOn, selectedMode);
           document.getElementById('outputSection').style.display = 'block';
           document.getElementById('outputSection').scrollIntoView({ behavior: 'smooth', block: 'start' });
         } else {
@@ -517,10 +744,10 @@ Transform this into the ultimate 850-950 word realistic prompt:
     }
 
     btn.disabled = false;
-    btn.textContent = 'Make it Raw';
+    btn.innerHTML = '&#10024; Make it Raw';
   }
 
-  function buildMetaTags(ratio, model, seed, art, shot, faceOn) {
+  function buildMetaTags(ratio, model, seed, art, shot, faceOn, mode) {
     const container = document.getElementById('metaTags');
     container.innerHTML = '';
     const tags = [
@@ -530,6 +757,7 @@ Transform this into the ultimate 850-950 word realistic prompt:
       { label: shot.replace('_', ' '), purple: false },
       seed ? { label: `seed: ${seed}`, purple: false } : null,
       faceOn ? { label: '◈ face match on', purple: true } : null,
+      { label: mode === 'parameter' ? 'SPP mode' : 'narrative mode', purple: false },
     ].filter(Boolean);
     tags.forEach(t => {
       const span = document.createElement('span');
@@ -610,6 +838,30 @@ self.addEventListener('fetch', e => {
   }
 
 
+
+  // Service Worker
+  if ("serviceWorker" in navigator) {
+    window.addEventListener("load", () => {
+      navigator.serviceWorker.register("sw.js")
+        .then(r => console.log("SW ready", r.scope))
+        .catch(e => console.log("SW error", e));
+    });
+  }
+
+
+  // SPP mode: make output use monospace
+  const origBuildMeta = buildMetaTags;
+  const _origEnhance = enhance;
+
+  // Style output text based on mode
+  const origShowOutput = () => {
+    const el = document.getElementById("outputText");
+    if (selectedMode === "parameter") {
+      el.classList.add("spp-mode");
+    } else {
+      el.classList.remove("spp-mode");
+    }
+  };
 
   // Service Worker
   if ("serviceWorker" in navigator) {
